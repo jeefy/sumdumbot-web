@@ -10,13 +10,16 @@
 	</head>
 	<body>
 		<div id="filter_box" class="box">
-			{% if previous_day %}<a href="/date/{{previous_day|date:"Y-m-d"}}/">Previous Day</a>{% endif %}{% if next_day %} | <a href="/date/{{next_day|date:"Y-m-d"}}/">Next Day</a>{% endif %}	
+			<a href="/">Today</a>{% if previous_day %} | <a href="/date/{{previous_day|date:"Y-m-d"}}/">Previous Day</a>{% endif %}{% if next_day %} | <a href="/date/{{next_day|date:"Y-m-d"}}/">Next Day</a>{% endif %}	
 		</div>
 		<div id="user_box" class="box">
 
 		</div>
 		<div id="link_box" class="box">
-			<h3><a href="/">Links</a></h3>
+			<h3>Otakushirts Link Archive</h3>
+			<form method="get">
+				<input type="text" name="q" /><input type="Submit" value="Search" />
+			</form>
 			<table width="100%" cellpadding="0" cellspacing="0">
 				{% for link in links %}
 				<tr>
