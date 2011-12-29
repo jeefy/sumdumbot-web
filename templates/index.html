@@ -1,0 +1,32 @@
+<html>
+	<head>
+		<title>#otakushirts chat page</title>
+		<style>
+			body{ font-family: sans-serif; }
+			.post_info{ font-size: 70%; padding-bottom: 6px; }
+			a{ color: #0000ff; text-decoration: none; }
+			a:hover{ color: #000066; }
+		</style>
+	</head>
+	<body>
+		<div id="filter_box" class="box">
+			{% if previous_day %}<a href="/date/{{previous_day|date:"Y-m-d"}}/">Previous Day</a>{% endif %}{% if next_day %} | <a href="/date/{{next_day|date:"Y-m-d"}}/">Next Day</a>{% endif %}	
+		</div>
+		<div id="user_box" class="box">
+
+		</div>
+		<div id="link_box" class="box">
+			<h3><a href="/">Links</a></h3>
+			<table width="100%" cellpadding="0" cellspacing="0">
+				{% for link in links %}
+				<tr>
+					<td class="link_url"><a target="_blank" href="{{link.url}}">{{link.title}}</a></td>
+				</tr>
+				<tr>
+					<td class="post_info">Posted by <a href="/user/{{link.user}}/">{{link.user}}</a> at {{link.timestamp|time:"H:i"}}</td>
+				</tr>
+				{% endfor %}
+			</table>
+		</div>
+	</body>
+</html>
