@@ -18,7 +18,7 @@ def add(request):
 		link = Link(url=request.GET['url'], user=request.GET['user'], channel=request.GET['channel'], title=request.GET['title'])
 		link.save()
 		if request.GET['title'] == "Binary Data or File":
-			p = subprocess.Popen(['wget', '-P', '/tmp/fileCache/', request.GET['url']])
+			p = subprocess.Popen(['wget', '-P', '/raid/archives/Incoming/sumdumbot/', request.GET['url']])
 		return HttpResponse('OK')
 	else:
 		return HttpResponse('Error')
