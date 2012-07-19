@@ -31,10 +31,10 @@
 			<table width="100%" cellpadding="0" cellspacing="0">
 				{% for link in links %}
 				<tr>
-					<td class="link_url"><a target="_blank" href="{{link.url}}">{{link.title}}</a></td>
+					<td class="link_url"><a target="_blank" href="{{link.url}}">{% ifequal link.title "Binary Data or File" %}{{link.url}}{% else %}{{link.title}}{% endifequal %}</a></td>
 				</tr>
 				<tr>
-					<td class="post_info">Posted by <a href="/user/{{link.user}}/">{{link.user}}</a> at {{link.timestamp|time:"H:i"}} on {{link.timestamp|date:"Y-m-d"}}</td>
+					<td class="post_info">Posted by <a href="/user/{{link.user}}/">{{link.user}}</a> in {{link.channel}} at {{link.timestamp|time:"H:i"}} on {{link.timestamp|date:"Y-m-d"}}</td>
 				</tr>
 				{% endfor %}
 			</table>

@@ -13,4 +13,6 @@ fi
 
 exec /usr/bin/env - \
   PYTHONPATH="../python:.." \
-  python manage.py runfcgi socket=$SOCKET pidfile=$PIDFILE
+  python manage.py runfcgi pidfile=$PIDFILE method=prefork maxspare=2 daemonize=false
+
+#  python manage.py runfcgi socket=$SOCKET pidfile=$PIDFILE umask=000

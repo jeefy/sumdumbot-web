@@ -13,7 +13,7 @@ DATABASE_ENGINE = 'postgresql_psycopg2'           # 'postgresql_psycopg2', 'post
 DATABASE_NAME = 'snaplink'             # Or path to database file if using sqlite3.
 DATABASE_USER = 'snaplink_user'             # Not used with sqlite3.
 DATABASE_PASSWORD = 'linkme!'         # Not used with sqlite3.
-DATABASE_HOST = '192.168.1.43'             # Set to empty string for localhost. Not used with sqlite3.
+DATABASE_HOST = '192.168.0.200'             # Set to empty string for localhost. Not used with sqlite3.
 DATABASE_PORT = ''             # Set to empty string for default. Not used with sqlite3.
 
 # Local time zone for this installation. Choices can be found here:
@@ -47,6 +47,8 @@ MEDIA_URL = ''
 # trailing slash.
 # Examples: "http://foo.com/media/", "/media/".
 ADMIN_MEDIA_PREFIX = '/media/'
+
+FORCE_SCRIPT_NAME = ''
 
 # Make this unique, and don't share it with anybody.
 SECRET_KEY = 'uq2*9wd74#5e3lz11#t=k5v7uko&ld0llo5^goyq@9+hzb%pwn'

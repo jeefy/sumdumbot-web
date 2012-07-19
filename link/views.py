@@ -11,18 +11,29 @@ from django.utils import simplejson
 from django.db.models import Count, Q
 
 import datetime
+import subprocess
+
+def add(request):
+	if request.GET.has_key('url') and request.GET.has_key('user') and request.GET.has_key('channel') and request.GET.has_key('title'):
+		link = Link(url=request.GET['url'], user=request.GET['user'], channel=request.GET['channel'], title=request.GET['title'])
+		link.save()
+		if request.GET['title'] == "Binary Data or File":
+			p = subprocess.Popen(['wget', '-P', '/tmp/fileCache/', request.GET['url']])
+		return HttpResponse('OK')
+	else:
+		return HttpResponse('Error')
 
 def index(request, urldate=None):
 	today = datetime.date.today()
 	next_day = None
 	
 	if urldate is None:
-		links = Link.objects.filter(timestamp__year=today.year, timestamp__month=today.month, timestamp__day=today.day).order_by('-timestamp')
+		links = Link.objects.filter(channel="#otakushirts", timestamp__year=today.year, timestamp__month=today.month, timestamp__day=today.day).order_by('-timestamp')
 		previous_day = today - datetime.timedelta(days=1)
 	else:
 		tmp = urldate.split('-')
 		curdate = datetime.date(int(tmp[0]), int(tmp[1]), int(tmp[2]))
-		links = Link.objects.filter(timestamp__year=curdate.year, timestamp__month=curdate.month, timestamp__day=curdate.day).order_by('-timestamp')
+		links = Link.objects.filter(channel="#otakushirts", timestamp__year=curdate.year, timestamp__month=curdate.month, timestamp__day=curdate.day).order_by('-timestamp')
 		
 		previous_day = curdate - datetime.timedelta(days=1)
 		if curdate != today:
