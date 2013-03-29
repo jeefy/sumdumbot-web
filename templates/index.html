@@ -1,14 +1,18 @@
 <html>
 	<head>
-		<title>#otakushirts chat page</title>
+		<title>Sumdumbot Link Archive</title>
 		<style>
 			body{ font-family: sans-serif; }
 			.post_info{ font-size: 70%; padding-bottom: 6px; }
+                        .link_url  { padding-top: 5px;}
 			a{ color: #0000ff; text-decoration: none; }
 			a:hover{ color: #000066; }
-			form{display: inline; padding-left: 30px;}
+			form{float: right; padding-left: 30px;}
 			#q{width: 350px;}
 			#filter_box{ padding-bottom: 30px; }
+                        #header{font-size: 24px; }
+                        .row_odd{background-color: #f8f8f8;}
+			#channels{ font-size: 85%; padding: 10px; text-align: center; }
 		</style>
 		<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
 		<script type="text/javascript">
@@ -21,23 +25,48 @@
 		</script>
 	</head>
 	<body>
-		<h3>#otakushirts Link Archive</h3>
-		<div id="filter_box" class="box">
-			<a href="/">Today</a>{% if previous_day %} | <a href="/date/{{previous_day|date:"Y-m-d"}}/">Previous Day</a>{% endif %}{% if next_day %} | <a href="/date/{{next_day|date:"Y-m-d"}}/">Next Day</a>{% endif %}
+                <div id="header">
+                	#{{channel}} Link Archive
 			<form id="search"><input type="text" id="q" name="q" value="{{search}}"/><input type="Submit" value="Search" /></form><br />
-			Links displayed: {{linkCount}}
+                </div>
+		<div id="filter_box" class="box">
+                        {% if search %}
+				Links displayed: {{linkCount}}
+			{% endif %}
+			<div class="pagination">
+				<span class="step-links">
+					{% if links.has_previous %}
+					<a href="?page={{ links.previous_page_number }}">previous</a>
+					{% endif %}
+					<span class="current">
+						Page {{ links.number }} of {{ links.paginator.num_pages }}
+					</span>
+					{% if links.has_next %}
+					<a href="?page={{ links.next_page_number }}">next</a>
+					{% endif %}
+				</span>
+			</div>
 		</div>
 		<div id="link_box" class="box">
 			<table width="100%" cellpadding="0" cellspacing="0">
 				{% for link in links %}
-				<tr>
-					<td class="link_url"><a target="_blank" href="{{link.url}}">{% ifequal link.title "Binary Data or File" %}{{link.url}}{% else %}{{link.title}}{% endifequal %}</a></td>
+				<tr class="row_{% if forloop.counter|divisibleby:2 %}even{% else %}odd{% endif %}">
+					<td class="link_url">
+						<a target="_blank" href="{{link.url}}">{% ifequal link.title "Binary Data or File" %}{{link.url}}{% else %}{{link.title}}{% endifequal %}</a>
+					</td>
 				</tr>
-				<tr>
-					<td class="post_info">Posted by <a href="/user/{{link.user}}/">{{link.user}}</a> in {{link.channel}} at {{link.timestamp|time:"H:i"}} on {{link.timestamp|date:"Y-m-d"}}</td>
+				<tr class="row_{% if forloop.counter|divisibleby:2 %}even{% else %}odd{% endif %}">
+					<td class="post_info">
+						Posted by <a href="/user/{{link.user}}/">{{link.user}}</a> in {{link.channel}} at {{link.timestamp|time:"H:i"}} on {{link.timestamp|date:"Y-m-d"}}
+					</td>
 				</tr>
 				{% endfor %}
 			</table>
+		</div>
+		<div id="channels">
+                	{% for channel in channels %}
+        	        <a href="/channel/{{channel}}">#{{channel}}</a> 
+			{% endfor %}
 		</div>
 	</body>
 </html>
