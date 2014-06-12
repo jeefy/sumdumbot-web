@@ -63,7 +63,7 @@ def message(request):
 	#key     = msg['key']
 	#if message is not None and key is not None and key == hashlib.md5(message + 'sup ribs'):
 	message = request.GET['message']
-	f = open('/home/jeef/sumdumbot/messages.txt', 'w+')
+	f = open('/db/messages.txt', 'w+')
 	f.write(message)
 	f.close()
 	return HttpResponse("1")
@@ -71,8 +71,11 @@ def message(request):
 	#	return HttpResponse("0")
 def _page(links, request):
 	paginator = Paginator(links, 25) # Show 25 contacts per page
+	if request.GET.get('page') is None:
+		page = 0
+	else:
+		page = request.GET.get('page')
 
-	page = request.GET.get('page')
 	try:
 		links = paginator.page(page)
 	except PageNotAnInteger:
