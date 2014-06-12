@@ -1,5 +1,5 @@
 # Create your views here.
-from link.models import Link
+from models import Link
 
 from django.shortcuts           import render_to_response
 from django.template            import RequestContext
