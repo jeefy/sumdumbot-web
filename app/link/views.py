@@ -30,7 +30,7 @@ def index(request):
 def user(request, user):
 	links = _page(Link.objects.filter(user=user).order_by('-timestamp'), request)
 
-	tempvars = {'request':request, 'links':links, 'linkCount':len(links), 'channel':'otakushirts'}
+	tempvars = {'request':request, 'links':links, 'linkCount':len(links.object_list), 'channel':'otakushirts'}
 	return render_to_response('index.html', tempvars)
 
 def channel(request, channel):
@@ -43,13 +43,13 @@ def channel(request, channel):
 	for n in cursor.fetchall():
 		channels.append(n[0].strip('#'))
 
-	tempvars = {'request':request, 'links':links, 'linkCount':len(links), 'channel':channel, 'channels':set(channels)}
+	tempvars = {'request':request, 'links':links, 'linkCount':len(links.object_list), 'channel':channel, 'channels':set(channels)}
 	return render_to_response('index.html', tempvars)
 
 def query(request, q):
 	links = _page(Link.objects.filter(Q(title__icontains = q) | Q(url__icontains = q)).order_by('-timestamp'), request)
 	
-	tempvars = {'request':request, 'links':links, 'search':q, 'linkCount':len(links), 'channel':'otakushirts'}
+	tempvars = {'request':request, 'links':links, 'search':q, 'linkCount':len(links.object_list), 'channel':'otakushirts'}
 	return render_to_response('index.html', tempvars)
 
 def message(request):
@@ -63,7 +63,7 @@ def message(request):
 	#key     = msg['key']
 	#if message is not None and key is not None and key == hashlib.md5(message + 'sup ribs'):
 	message = request.GET['message']
-	f = open('/db/messages.txt', 'w+')
+	f = open('/home/jeef/sumdumbot/messages.txt', 'w+')
 	f.write(message)
 	f.close()
 	return HttpResponse("1")
@@ -71,17 +71,14 @@ def message(request):
 	#	return HttpResponse("0")
 def _page(links, request):
 	paginator = Paginator(links, 25) # Show 25 contacts per page
-	if request.GET.get('page') is None:
-		page = 0
-	else:
-		page = request.GET.get('page')
+	try:
+		page = int(request.GET.get('page', '1'))
+	except ValueError:
+		page = 1
 
 	try:
 		links = paginator.page(page)
-	except PageNotAnInteger:
-		# If page is not an integer, deliver first page.
-		links = paginator.page(1)
-	except EmptyPage:
-		# If page is out of range (e.g. 9999), deliver last page of results.
-        	links = paginator.page(paginator.num_pages)
+	except (EmptyPage, InvalidPage):
+	# If page is out of range (e.g. 9999), deliver last page of results.
+		links = paginator.page(paginator.num_pages)
 	return links
