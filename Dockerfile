@@ -1,4 +1,4 @@
-#docker.io run -d -v /home/planeswalker/container_data/sumdumbot_web/:/db "jeef/sumdumbot_web"
+#docker run -d -v /home/planeswalker/container_data/sumdumbot_web/:/db "jeef/sumdumbot_web"
 
 FROM ubuntu:14.04
 
