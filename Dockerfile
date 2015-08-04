@@ -13,6 +13,7 @@ EXPOSE 80
 RUN service nginx stop
 
 COPY ./sys/django.conf /etc/nginx/sites-enabled/django.conf
+COPY ./app/ /sumdumbot_web/app/
 
 CMD service nginx start && \
     cd /sumdumbot_web/app && \
