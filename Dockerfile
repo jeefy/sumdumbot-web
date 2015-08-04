@@ -12,7 +12,7 @@ EXPOSE 80
 
 RUN service nginx stop
 
-COPY ./sys/django.conf /etc/nginx/sites-enabled/django.conf
+COPY ./sys/django.conf /etc/nginx/sites-enabled/default
 COPY ./app/ /sumdumbot_web/app/
 
 WORKDIR /sumdumbot_web/app/
